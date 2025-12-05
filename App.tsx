@@ -1,13 +1,15 @@
+
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Location from './components/Location';
 import { Language } from './types';
 
 const App: React.FC = () => {
   const [language, setLanguage] = useState<Language>('SQ');
 
   return (
-    <div className="relative min-h-screen bg-white text-black font-sans selection:bg-brand-red selection:text-white overflow-hidden">
+    <div className="relative min-h-screen bg-white text-black font-sans selection:bg-brand-red selection:text-white overflow-x-hidden overflow-y-auto">
       
       {/* Cinematic Film Grain Overlay */}
       <div className="fixed inset-0 pointer-events-none z-[60] opacity-[0.03] mix-blend-multiply" 
@@ -25,6 +27,7 @@ const App: React.FC = () => {
       
       <main>
         <Hero language={language} />
+        <Location language={language} />
       </main>
 
     </div>
