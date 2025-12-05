@@ -21,8 +21,16 @@ const Navbar: React.FC<NavbarProps> = ({ onInquire, language, setLanguage }) => 
 
   return (
     <nav className="w-full flex justify-between items-center py-6 px-8 md:px-16 absolute top-0 z-50 bg-transparent text-black">
-      <div className="flex items-center">
-        <h1 className="text-2xl font-display font-bold tracking-tighter uppercase">AUTOCAR</h1>
+      <div className="flex flex-col items-start group cursor-default">
+        <h1 className="text-xl md:text-3xl font-display font-black tracking-tighter uppercase leading-none">
+          AUTO SALLON PLANJANE
+        </h1>
+        <div className="flex items-center gap-2 mt-1">
+          <div className="h-[2px] w-6 bg-brand-red transition-all duration-300 group-hover:w-12"></div>
+          <p className="text-[9px] md:text-[10px] font-bold text-gray-500 tracking-[0.2em] uppercase">
+            PRONAR: SALMIN BEGI
+          </p>
+        </div>
       </div>
 
       <div className="hidden md:flex items-center bg-white/50 backdrop-blur-md rounded-full p-1 border border-gray-100 shadow-sm">
