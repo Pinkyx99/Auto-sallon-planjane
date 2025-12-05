@@ -33,7 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({ onInquire, language, setLanguage }) => 
         </div>
       </div>
 
-      <div className="hidden md:flex items-center bg-white/50 backdrop-blur-md rounded-full p-1 border border-gray-100 shadow-sm">
+      <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center bg-white/50 backdrop-blur-md rounded-full p-1 border border-gray-100 shadow-sm">
         {languages.map((lang) => (
           <button
             key={lang}
