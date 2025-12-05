@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Send, Bot } from 'lucide-react';
+import { X, Send, Bot, MessageCircle } from 'lucide-react';
 import { generateCarResponse } from '../services/geminiService';
 import { ChatMessage, Language } from '../types';
 
@@ -63,6 +63,10 @@ const CarAssistant: React.FC<CarAssistantProps> = ({ isOpen, onClose, language }
     if (e.key === 'Enter') handleSend();
   };
 
+  const handleWhatsApp = () => {
+    window.open('https://wa.me/38344560507', '_blank');
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -74,9 +78,14 @@ const CarAssistant: React.FC<CarAssistantProps> = ({ isOpen, onClose, language }
             <Bot size={20} />
             <span className="font-bold tracking-wide">AUTOCAR ASSISTANT</span>
           </div>
-          <button onClick={onClose} className="hover:bg-white/20 p-1 rounded-full transition">
-            <X size={20} />
-          </button>
+          <div className="flex items-center gap-2">
+            <button onClick={handleWhatsApp} className="hover:bg-white/20 p-1.5 rounded-full transition" title="Contact on WhatsApp">
+              <MessageCircle size={20} />
+            </button>
+            <button onClick={onClose} className="hover:bg-white/20 p-1.5 rounded-full transition">
+              <X size={20} />
+            </button>
+          </div>
         </div>
 
         {/* Messages */}

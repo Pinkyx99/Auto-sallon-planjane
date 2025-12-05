@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, Check, Plus } from 'lucide-react';
 import { Language } from '../types';
 
 interface HeroProps {
@@ -9,6 +9,7 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ language }) => {
   const [mounted, setMounted] = useState(false);
   const [viewMode, setViewMode] = useState<'exterior' | 'driver' | 'passenger'>('exterior');
+  const [showSpecs, setShowSpecs] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -38,7 +39,23 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
       engineLabel: "SPECIFIKAT",
       engineVal: "2.0 Dizell • 184 PS • Automat",
       statusLabel: "STATUSI",
-      statusVal: "178k km • Pa Dogan • Swiss"
+      statusVal: "178k km • Pa Dogan • Swiss",
+      priceLabel: "ÇMIMI",
+      priceVal: "ME MARRËVESHJE",
+      detailsBtn: "SHIKO DETAJET",
+      featuresTitle: "PAJISJET & OPSIONET",
+      features: [
+        "Fenerë Full LED Matrix",
+        "Navigacion me Touchscreen",
+        "Ulëse Sportive FR (Lëkurë/Alkantara)",
+        "Ambient Lighting (Ndriçim i brendshëm)",
+        "Senzorë Parkimi (Para & Mbrapa)",
+        "Klimatronic 2-Zona",
+        "Tempomat Adaptiv",
+        "Sound System SEAT",
+        "Fellne Alumini 18-inch",
+        "Driving Modes (Eco, Normal, Sport)"
+      ]
     },
     EN: {
       swiss: "SEAT",
@@ -53,7 +70,23 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
       engineLabel: "SPECS",
       engineVal: "2.0L Diesel • 184 PS • Auto",
       statusLabel: "STATUS",
-      statusVal: "178k km • Unpaid Customs • Swiss"
+      statusVal: "178k km • Unpaid Customs • Swiss",
+      priceLabel: "PRICE",
+      priceVal: "BY AGREEMENT",
+      detailsBtn: "VIEW DETAILS",
+      featuresTitle: "FEATURES & OPTIONS",
+      features: [
+        "Full LED Matrix Headlights",
+        "Touchscreen Navigation",
+        "FR Sport Seats (Leather/Alcantara)",
+        "Ambient Lighting",
+        "Parking Sensors (Front & Rear)",
+        "2-Zone Climate Control",
+        "Adaptive Cruise Control",
+        "SEAT Sound System",
+        "18-inch Alloy Wheels",
+        "Driving Modes (Eco, Normal, Sport)"
+      ]
     },
     BS: {
       swiss: "SEAT",
@@ -68,7 +101,23 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
       engineLabel: "SPECIFIKACIJE",
       engineVal: "2.0 Dizel • 184 KS • Automatik",
       statusLabel: "STATUS",
-      statusVal: "178k km • Bez Carine • Švicarac"
+      statusVal: "178k km • Bez Carine • Švicarac",
+      priceLabel: "CIJENA",
+      priceVal: "PO DOGOVORU",
+      detailsBtn: "DETALJNIJE",
+      featuresTitle: "OPREMA & OPCIJE",
+      features: [
+        "Full LED Matrix Svjetla",
+        "Navigacija na dodir",
+        "FR Sportska Sjedišta",
+        "Ambientalno Osvjetljenje",
+        "Parking Senzori (Naprijed & Nazad)",
+        "Dvozonska Klima",
+        "Adaptivni Tempomat",
+        "SEAT Ozvučenje",
+        "Alu Felge 18-inča",
+        "Modovi Vožnje (Eco, Normal, Sport)"
+      ]
     },
     DE: {
       swiss: "SEAT",
@@ -83,35 +132,65 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
       engineLabel: "TECHNISCHE DATEN",
       engineVal: "2.0L Diesel • 184 PS • Automatik",
       statusLabel: "STATUS",
-      statusVal: "178k km • Nicht Verzollt • Swiss"
+      statusVal: "178k km • Nicht Verzollt • Swiss",
+      priceLabel: "PREIS",
+      priceVal: "NACH VEREINBARUNG",
+      detailsBtn: "DETAILS ANZEIGEN",
+      featuresTitle: "AUSSTATTUNG & OPTIONEN",
+      features: [
+        "Voll-LED Matrix Scheinwerfer",
+        "Touchscreen Navigation",
+        "FR Sportsitze (Leder/Alcantara)",
+        "Ambientebeleuchtung",
+        "Einparkhilfe (Vorne & Hinten)",
+        "2-Zonen Klimaautomatik",
+        "Adaptiver Tempomat",
+        "SEAT Soundsystem",
+        "18-Zoll Leichtmetallfelgen",
+        "Fahrmodi (Eco, Normal, Sport)"
+      ]
     }
   };
 
   const text = t[language];
 
+  // Static transform for the circle to keep it centered
+  const circleStyle = isInterior 
+    ? { transform: 'translate(-50%, -50%) scale(10)' } 
+    : { transform: 'translate(-50%, -50%)' };
+
   return (
     <div className="relative w-full h-screen overflow-hidden bg-white flex flex-col justify-center items-center perspective-[2000px]">
       
       {/* Background Typography - Fades out when inside */}
-      <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full text-center z-0 select-none pointer-events-none transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isInterior ? 'opacity-0 scale-150 blur-xl' : 'opacity-100 scale-100 blur-0'}`}>
-        <h2 className="text-[12vw] md:text-[8vw] font-display uppercase text-gray-900 tracking-tighter leading-none opacity-10 absolute -top-20 left-1/2 transform -translate-x-1/2 w-full">
-          {text.swiss}
-        </h2>
-        <h1 className="text-[22vw] font-display uppercase text-gray-100 tracking-tighter leading-none whitespace-nowrap">
-          {text.komod}
-        </h1>
+      <div 
+        className={`absolute top-1/2 left-1/2 w-full text-center z-0 select-none pointer-events-none transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isInterior ? 'opacity-0 scale-150 blur-xl' : 'opacity-100 scale-100 blur-0'}`}
+      >
+        <div className="relative w-full h-full transform -translate-x-1/2 -translate-y-1/2">
+            <h2 className="text-[12vw] md:text-[8vw] font-display uppercase text-gray-900 tracking-tighter leading-none opacity-10 absolute -top-20 left-1/2 transform -translate-x-1/2 w-full">
+            {text.swiss}
+            </h2>
+            <h1 className="text-[22vw] font-display uppercase text-gray-100 tracking-tighter leading-none whitespace-nowrap absolute top-0 left-1/2 transform -translate-x-1/2">
+            {text.komod}
+            </h1>
+        </div>
       </div>
 
       {/* Red Circle Background Graphic - Modern gradient and glow */}
-      <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[60vh] h-[60vh] md:w-[70vh] md:h-[70vh] rounded-full bg-[radial-gradient(circle_at_30%_30%,_rgb(239,68,68),_rgb(185,28,28))] shadow-[0_0_120px_rgba(220,38,38,0.3)] z-10 transition-all duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted && !isInterior ? 'scale-100 opacity-100' : 'scale-[10] opacity-0'}`}>
+      <div 
+        className={`absolute top-1/2 left-1/2 w-[60vh] h-[60vh] md:w-[70vh] md:h-[70vh] rounded-full bg-[radial-gradient(circle_at_30%_30%,_rgb(239,68,68),_rgb(185,28,28))] shadow-[0_0_120px_rgba(220,38,38,0.3)] z-10 transition-all duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted && !isInterior ? 'opacity-100' : 'opacity-0'}`}
+        style={circleStyle}
+      >
         <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-50"></div>
       </div>
       
       {/* EXTERIOR LAYER */}
-      <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[1200px] z-20 px-4 transition-all duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-[56%_43%] will-change-transform ${isInterior ? 'scale-[15] opacity-0 pointer-events-none blur-sm' : 'scale-100 opacity-100 blur-0'}`}>
+      <div 
+        className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[1200px] z-20 px-4 transition-all duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)] origin-[56%_43%] will-change-transform ${isInterior ? 'scale-[15] opacity-0 pointer-events-none blur-sm' : 'scale-100 opacity-100 blur-0'}`}
+      >
         <div className="relative w-full">
             <img 
-              src="https://res.cloudinary.com/ddgmnys0o/image/upload/v1764952839/image_1_1_d0fv4i.png" 
+              src="https://res.cloudinary.com/ddgmnys0o/image/upload/v1764954905/image_2_dsqymy.png" 
               alt="Seat Leon FR 2016" 
               className={`w-full h-auto object-contain drop-shadow-2xl transition-all duration-1000 delay-300 ease-out ${mounted ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'}`}
             />
@@ -119,7 +198,7 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
             {/* Door Entry Button */}
             <button 
                 onClick={handleEnterCar}
-                className="absolute top-[43%] left-[56%] w-10 h-10 md:w-12 md:h-12 bg-white/80 backdrop-blur-md rounded-full shadow-[0_0_15px_rgba(255,255,255,0.6)] flex items-center justify-center cursor-pointer hover:scale-110 hover:bg-white transition-all duration-300 animate-pulse group z-30"
+                className="absolute top-[43%] left-[65%] w-10 h-10 md:w-12 md:h-12 bg-white/90 backdrop-blur-md rounded-full shadow-[0_0_20px_rgba(255,255,255,0.8)] flex items-center justify-center cursor-pointer hover:scale-110 hover:bg-white transition-all duration-300 animate-pulse group z-30 ring-1 ring-white/50"
                 aria-label="Enter Car"
             >
                 <img 
@@ -127,8 +206,10 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
                     alt="Enter" 
                     className="w-5 h-5 md:w-6 md:h-6 opacity-70 group-hover:opacity-100 transition-opacity"
                 />
-                <div className="absolute -bottom-8 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-black text-white text-[10px] py-1 px-2 rounded pointer-events-none uppercase">
+                <div className="absolute top-1/2 left-full ml-3 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 whitespace-nowrap">
+                   <div className="bg-black text-white text-[10px] py-1 px-3 rounded font-bold uppercase tracking-wider shadow-lg">
                     {text.viewInterior}
+                   </div>
                 </div>
             </button>
         </div>
@@ -229,14 +310,75 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
             <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-1">{text.engineLabel}</p>
             <p className="text-lg font-bold text-brand-dark leading-tight">{text.engineVal}</p>
          </div>
+         
+         <button 
+           onClick={() => setShowSpecs(true)}
+           className="mt-4 flex items-center space-x-2 text-[10px] font-bold tracking-widest uppercase hover:text-brand-red transition-colors group"
+         >
+           <div className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center group-hover:border-brand-red transition-colors">
+              <Plus size={12} />
+           </div>
+           <span>{text.detailsBtn}</span>
+         </button>
       </div>
 
+      {/* Status Badge */}
       <div className={`absolute right-1/4 bottom-1/3 z-20 hidden lg:block transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isInterior ? 'opacity-0 translate-x-10 pointer-events-none' : 'opacity-100 translate-x-0'}`}>
          <div className="bg-white/90 backdrop-blur-md p-4 rounded-xl border border-gray-100 shadow-xl transform translate-x-12 animate-fade-in-up animation-delay-200 min-w-[200px]">
             <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-1">{text.statusLabel}</p>
             <p className="text-lg font-bold text-brand-dark leading-tight">{text.statusVal}</p>
          </div>
       </div>
+      
+      {/* Price Display */}
+      <div className={`absolute bottom-[15%] right-[10%] md:bottom-[20%] md:right-[22%] z-20 text-right transition-all duration-1000 delay-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isInterior ? 'opacity-0 translate-x-10 pointer-events-none' : 'opacity-100 translate-x-0'}`}>
+         <div className="animate-fade-in-up animation-delay-400">
+             <p className="text-brand-red font-bold tracking-[0.2em] text-[10px] md:text-xs mb-1 uppercase">{text.priceLabel}</p>
+             <p className="text-2xl md:text-3xl font-display font-bold text-black uppercase leading-none drop-shadow-sm">{text.priceVal}</p>
+         </div>
+      </div>
+
+      {/* SPECS MODAL OVERLAY */}
+      {showSpecs && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/40 backdrop-blur-md transition-opacity duration-500"
+            onClick={() => setShowSpecs(false)}
+          ></div>
+          <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden relative z-10 animate-fade-in-up">
+            <div className="bg-brand-dark p-6 text-white flex justify-between items-center">
+              <div>
+                <h3 className="font-display text-2xl tracking-wide">{text.komod}</h3>
+                <p className="text-xs font-bold tracking-widest opacity-70">{text.swiss}</p>
+              </div>
+              <button onClick={() => setShowSpecs(false)} className="hover:bg-white/10 p-2 rounded-full transition">
+                <X size={20} />
+              </button>
+            </div>
+            <div className="p-8">
+              <h4 className="text-xs font-bold tracking-[0.2em] text-gray-400 uppercase mb-6">{text.featuresTitle}</h4>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {text.features.map((feature, i) => (
+                  <li key={i} className="flex items-start space-x-3 text-sm font-medium text-gray-800">
+                    <div className="bg-green-100 text-green-600 rounded-full p-0.5 mt-0.5">
+                      <Check size={12} strokeWidth={4} />
+                    </div>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-gray-50 p-4 text-center border-t border-gray-100">
+               <button 
+                 onClick={() => setShowSpecs(false)}
+                 className="text-xs font-bold uppercase tracking-widest text-brand-red hover:text-black transition-colors"
+               >
+                 Close
+               </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
