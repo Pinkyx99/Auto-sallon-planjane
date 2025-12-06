@@ -17,3 +17,5 @@ export interface ChatMessage {
 }
 
 export type Language = 'SQ' | 'EN' | 'BS' | 'DE';
+
+export type Theme = 'light' | 'dark';

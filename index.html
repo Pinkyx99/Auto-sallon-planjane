@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
@@ -63,9 +64,16 @@
     </script>
     <style>
       body {
+        /* Default light mode bg, handled via Tailwind classes in App */
         background-color: #ffffff;
         color: #111;
         font-family: 'Manrope', sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      /* Dark mode override for body via class */
+      html.dark body {
+        background-color: #000000;
+        color: #ffffff;
       }
       /* Hide scrollbar for cleaner look */
       ::-webkit-scrollbar {

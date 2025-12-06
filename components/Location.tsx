@@ -1,12 +1,13 @@
 import React from 'react';
 import { MapPin, Navigation, ArrowRight, MessageCircle } from 'lucide-react';
-import { Language } from '../types';
+import { Language, Theme } from '../types';
 
 interface LocationProps {
   language: Language;
+  theme?: Theme;
 }
 
-const Location: React.FC<LocationProps> = ({ language }) => {
+const Location: React.FC<LocationProps> = ({ language, theme }) => {
   const t = {
     SQ: {
       title: "LOKACIONI",
@@ -66,14 +67,14 @@ const Location: React.FC<LocationProps> = ({ language }) => {
   };
 
   return (
-    <section className="relative w-full bg-white text-black py-20 md:py-32 px-4 md:px-16 overflow-hidden">
+    <section className="relative w-full bg-white dark:bg-black text-black dark:text-white py-20 md:py-32 px-4 md:px-16 overflow-hidden transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
         <div className="mb-16 md:mb-24 animate-fade-in-up">
           <div className="flex items-center gap-4 mb-4">
             <div className="h-[2px] w-12 bg-brand-red"></div>
-            <span className="text-xs font-bold tracking-[0.3em] uppercase text-gray-500 font-body">{text.title}</span>
+            <span className="text-xs font-bold tracking-[0.3em] uppercase text-gray-500 dark:text-gray-400 font-body transition-colors">{text.title}</span>
           </div>
           <h2 className="text-4xl md:text-6xl font-display uppercase font-semibold tracking-tight leading-none max-w-3xl">
             {text.subtitle}
@@ -85,19 +86,19 @@ const Location: React.FC<LocationProps> = ({ language }) => {
           {/* Info Column */}
           <div className="space-y-12">
             <div>
-              <p className="text-lg md:text-xl text-gray-600 font-body font-light leading-relaxed mb-8 max-w-md">
+              <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 font-body font-light leading-relaxed mb-8 max-w-md transition-colors">
                 {text.desc}
               </p>
               
               <div className="space-y-6">
                 <div className="flex items-start gap-4 group">
-                  <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-brand-red group-hover:bg-brand-red group-hover:text-white transition-colors duration-300">
+                  <div className="w-10 h-10 rounded-full bg-gray-50 dark:bg-white/10 flex items-center justify-center text-brand-red group-hover:bg-brand-red group-hover:text-white transition-colors duration-300">
                     <MapPin size={20} strokeWidth={1.5} />
                   </div>
                   <div>
                     <h4 className="font-bold text-xl uppercase tracking-tight font-display">AUTO SALLON PLANJANE</h4>
-                    <p className="text-gray-500 font-body">{text.address}</p>
-                    <p className="text-gray-500 font-body">{text.city}</p>
+                    <p className="text-gray-500 dark:text-gray-400 font-body transition-colors">{text.address}</p>
+                    <p className="text-gray-500 dark:text-gray-400 font-body transition-colors">{text.city}</p>
                   </div>
                 </div>
               </div>
@@ -106,7 +107,7 @@ const Location: React.FC<LocationProps> = ({ language }) => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button 
                 onClick={handleNavigate}
-                className="group flex items-center justify-center gap-4 bg-black text-white px-8 py-4 rounded-full hover:bg-brand-red transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1"
+                className="group flex items-center justify-center gap-4 bg-black dark:bg-white text-white dark:text-black px-8 py-4 rounded-full hover:bg-brand-red dark:hover:bg-gray-200 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1"
               >
                 <Navigation size={20} className="group-hover:rotate-45 transition-transform duration-300" strokeWidth={1.5} />
                 <span className="font-bold tracking-widest uppercase text-sm font-body">{text.navigate}</span>
@@ -123,7 +124,7 @@ const Location: React.FC<LocationProps> = ({ language }) => {
           </div>
 
           {/* Map Column */}
-          <div className="relative w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-gray-100 group">
+          <div className="relative w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-gray-100 dark:border-white/10 group">
              {/* Map Iframe updated to point to Planjane 20530 */}
              <iframe
               width="100%"
@@ -137,9 +138,9 @@ const Location: React.FC<LocationProps> = ({ language }) => {
             ></iframe>
             
             {/* Custom Overlay Label */}
-            <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md px-6 py-4 rounded-2xl shadow-lg border border-white/50 pointer-events-none md:pointer-events-auto">
+            <div className="absolute bottom-6 left-6 bg-white/90 dark:bg-black/90 backdrop-blur-md px-6 py-4 rounded-2xl shadow-lg border border-white/50 dark:border-white/10 pointer-events-none md:pointer-events-auto transition-colors">
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 font-body">COORDINATES</p>
-              <p className="font-mono text-sm font-bold text-brand-dark font-body">{lat}, {lng}</p>
+              <p className="font-mono text-sm font-bold text-brand-dark dark:text-white font-body transition-colors">{lat}, {lng}</p>
             </div>
           </div>
 

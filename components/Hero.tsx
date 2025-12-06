@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Plus, ChevronLeft, ChevronRight, MessageCircle, Camera, Image as ImageIcon, ZoomIn, Maximize2 } from 'lucide-react';
-import { Language } from '../types';
+import { Language, Theme } from '../types';
 
 interface HeroProps {
   language: Language;
+  theme?: Theme;
 }
 
 interface CarData {
@@ -29,7 +30,7 @@ interface CarData {
   topPosition: string;
 }
 
-const Hero: React.FC<HeroProps> = ({ language }) => {
+const Hero: React.FC<HeroProps> = ({ language, theme }) => {
   const [mounted, setMounted] = useState(false);
   const [viewMode, setViewMode] = useState<'exterior' | 'driver' | 'passenger'>('exterior');
   const [showSpecs, setShowSpecs] = useState(false);
@@ -280,7 +281,7 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
 
   return (
     <div 
-      className="relative w-full h-screen overflow-hidden flex flex-col justify-center items-center perspective-[2000px]"
+      className="relative w-full h-screen overflow-hidden flex flex-col justify-center items-center perspective-[2000px] transition-colors duration-500"
       onMouseMove={handleMouseMove}
     >
       
@@ -291,7 +292,6 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
       ></div>
       
       {/* EXTERIOR LAYER */}
-      {/* Optimized: Reduced max scale from 15 to 3. Removed blur transition. Reduced duration to 1000ms. */}
       <div 
         className={`absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[1200px] z-20 px-4 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] origin-[56%_43%] will-change-transform ${activeCar.topPosition} ${isInterior ? 'scale-[3] opacity-0 pointer-events-none' : 'scale-100 opacity-100'}`}
         style={{
@@ -313,7 +313,7 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
               <div className="absolute top-[60%] left-1/2 -translate-x-1/2 w-[70%] h-[30%] bg-red-500/10 blur-[50px] rounded-full pointer-events-none z-0"></div>
 
               {/* Realistic Floor Shadow */}
-              <div className="absolute top-[82%] left-1/2 -translate-x-1/2 w-[90%] h-[20%] bg-black opacity-30 blur-[60px] rounded-[100%] pointer-events-none z-0"></div>
+              <div className="absolute top-[82%] left-1/2 -translate-x-1/2 w-[90%] h-[20%] bg-black dark:bg-black/50 opacity-30 blur-[60px] rounded-[100%] pointer-events-none z-0"></div>
               
               <img 
                 src={activeCar.images.exterior}
@@ -397,8 +397,8 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
       <div className={`absolute top-24 left-8 md:top-32 md:left-16 z-20 text-left transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isInterior ? 'opacity-0 -translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
          <div key={activeCar.id} className="animate-fade-in-left delay-100">
             <p className="text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em] mb-3 font-body">{labels.engineLabel}</p>
-            <h3 className="text-2xl md:text-4xl font-display font-bold text-black leading-none">{activeCar.stats.engineVal}</h3>
-            <p className="text-xs md:text-sm font-body text-gray-500 mt-2 font-medium">{activeCar.stats.engineSub}</p>
+            <h3 className="text-2xl md:text-4xl font-display font-bold text-black dark:text-white leading-none transition-colors duration-500">{activeCar.stats.engineVal}</h3>
+            <p className="text-xs md:text-sm font-body text-gray-500 dark:text-gray-400 mt-2 font-medium transition-colors duration-500">{activeCar.stats.engineSub}</p>
          </div>
       </div>
 
@@ -406,8 +406,8 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
       <div className={`absolute top-24 right-8 md:top-32 md:right-16 z-20 text-right transition-all duration-700 delay-100 ease-[cubic-bezier(0.16,1,0.3,1)] ${isInterior ? 'opacity-0 -translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
          <div key={activeCar.id} className="animate-fade-in-right delay-200">
             <p className="text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em] mb-3 font-body">{labels.statusLabel}</p>
-            <h3 className="text-2xl md:text-[2.75rem] font-display font-semibold text-black leading-none tracking-tight">{activeCar.stats.statusVal}</h3>
-            <p className="text-xs md:text-sm font-body text-gray-500 mt-2 md:-mt-1">{activeCar.stats.statusSub}</p>
+            <h3 className="text-2xl md:text-[2.75rem] font-display font-semibold text-black dark:text-white leading-none tracking-tight transition-colors duration-500">{activeCar.stats.statusVal}</h3>
+            <p className="text-xs md:text-sm font-body text-gray-500 dark:text-gray-400 mt-2 md:-mt-1 transition-colors duration-500">{activeCar.stats.statusSub}</p>
          </div>
       </div>
       
@@ -415,30 +415,30 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
       <div className={`absolute bottom-8 left-6 md:bottom-10 md:left-10 z-20 transition-all duration-700 delay-200 ease-[cubic-bezier(0.16,1,0.3,1)] ${isInterior ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
         <div className="flex flex-col md:flex-row gap-4">
           <button onClick={() => setShowSpecs(true)} className="group flex items-center gap-3 bg-transparent py-2 pr-6 pl-0 rounded-full transition-all duration-300">
-             <div className="w-10 h-10 rounded-full bg-gray-100 text-black flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300 group-hover:rotate-45 shadow-sm">
+             <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-white/10 text-black dark:text-white flex items-center justify-center group-hover:bg-black dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black transition-all duration-300 group-hover:rotate-45 shadow-sm">
                 <Plus size={16} />
              </div>
              <div className="overflow-hidden">
-               <span className="text-xs font-body font-bold uppercase tracking-widest text-gray-800 group-hover:tracking-[0.25em] transition-all duration-300 inline-block transform translate-x-0">{labels.detailsBtn}</span>
-               <div className="h-[1px] bg-black w-0 group-hover:w-full transition-all duration-500 mt-1"></div>
+               <span className="text-xs font-body font-bold uppercase tracking-widest text-gray-800 dark:text-gray-200 group-hover:tracking-[0.25em] transition-all duration-300 inline-block transform translate-x-0">{labels.detailsBtn}</span>
+               <div className="h-[1px] bg-black dark:bg-white w-0 group-hover:w-full transition-all duration-500 mt-1"></div>
              </div>
            </button>
 
            <button onClick={() => setShowGallery(true)} className="group flex items-center gap-3 bg-transparent py-2 pr-6 pl-0 rounded-full transition-all duration-300">
-             <div className="w-10 h-10 rounded-full bg-gray-100 text-black flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300 shadow-sm">
+             <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-white/10 text-black dark:text-white flex items-center justify-center group-hover:bg-black dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black transition-all duration-300 shadow-sm">
                 <ImageIcon size={16} />
              </div>
              <div className="overflow-hidden">
-               <span className="text-xs font-body font-bold uppercase tracking-widest text-gray-800 group-hover:tracking-[0.25em] transition-all duration-300 inline-block transform translate-x-0">{labels.galleryBtn}</span>
-               <div className="h-[1px] bg-black w-0 group-hover:w-full transition-all duration-500 mt-1"></div>
+               <span className="text-xs font-body font-bold uppercase tracking-widest text-gray-800 dark:text-gray-200 group-hover:tracking-[0.25em] transition-all duration-300 inline-block transform translate-x-0">{labels.galleryBtn}</span>
+               <div className="h-[1px] bg-black dark:bg-white w-0 group-hover:w-full transition-all duration-500 mt-1"></div>
              </div>
            </button>
         </div>
       </div>
 
       {/* BOTTOM CENTER: Pagination */}
-      <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 z-20 text-xs font-bold tracking-[0.3em] text-gray-300 transition-opacity duration-300 ${isInterior ? 'opacity-0' : 'opacity-100'}`}>
-         <span className="text-black">0{currentCarIndex + 1}</span> / 0{cars.length}
+      <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 z-20 text-xs font-bold tracking-[0.3em] text-gray-300 dark:text-gray-600 transition-opacity duration-300 ${isInterior ? 'opacity-0' : 'opacity-100'}`}>
+         <span className="text-black dark:text-white transition-colors duration-500">0{currentCarIndex + 1}</span> / 0{cars.length}
       </div>
 
       {/* BOTTOM RIGHT: Price & WhatsApp */}
@@ -446,7 +446,7 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
          <div key={activeCar.id} className="animate-fade-in-up animation-delay-200 flex flex-col items-end group cursor-default">
              <p className="text-gray-400 font-bold tracking-[0.2em] text-[9px] mb-2 uppercase font-body">{labels.priceLabel}</p>
              <div className="relative inline-block mb-3">
-               <p className="text-xl md:text-3xl font-display font-medium text-black">{activeCar.stats.priceVal}</p>
+               <p className="text-xl md:text-3xl font-display font-medium text-black dark:text-white transition-colors duration-500">{activeCar.stats.priceVal}</p>
                <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-brand-red group-hover:w-full transition-all duration-500"></div>
              </div>
              <button onClick={handleWhatsApp} className="bg-[#25D366] hover:bg-[#20bd5a] text-white flex items-center gap-2 px-5 py-3 rounded-full shadow-lg transition-all duration-300 hover:scale-105 group/whatsapp mt-1">
@@ -458,12 +458,12 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
 
       {/* SIDE NAVIGATION ARROWS */}
       <div className={`absolute inset-x-0 top-1/2 -translate-y-1/2 z-30 flex justify-between px-2 md:px-8 pointer-events-none ${isInterior ? 'opacity-0' : 'opacity-100'}`}>
-         <button onClick={handlePrevCar} className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full text-gray-800 transition-all pointer-events-auto cursor-pointer group hover:scale-[1.07] active:scale-95 opacity-60 hover:opacity-100 duration-300 ease-out">
-           <div className="absolute inset-0 bg-gray-100 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300 scale-75 group-hover:scale-100"></div>
+         <button onClick={handlePrevCar} className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full text-gray-800 dark:text-gray-200 transition-all pointer-events-auto cursor-pointer group hover:scale-[1.07] active:scale-95 opacity-60 hover:opacity-100 duration-300 ease-out">
+           <div className="absolute inset-0 bg-gray-100 dark:bg-white/10 rounded-full opacity-0 group-hover:opacity-20 dark:group-hover:opacity-40 transition-opacity duration-300 scale-75 group-hover:scale-100"></div>
            <ChevronLeft size={28} strokeWidth={1.5} className="relative z-10 group-hover:-translate-x-1 transition-transform duration-300" />
          </button>
-         <button onClick={handleNextCar} className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full text-gray-800 transition-all pointer-events-auto cursor-pointer group hover:scale-[1.07] active:scale-95 opacity-60 hover:opacity-100 duration-300 ease-out">
-           <div className="absolute inset-0 bg-gray-100 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300 scale-75 group-hover:scale-100"></div>
+         <button onClick={handleNextCar} className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full text-gray-800 dark:text-gray-200 transition-all pointer-events-auto cursor-pointer group hover:scale-[1.07] active:scale-95 opacity-60 hover:opacity-100 duration-300 ease-out">
+           <div className="absolute inset-0 bg-gray-100 dark:bg-white/10 rounded-full opacity-0 group-hover:opacity-20 dark:group-hover:opacity-40 transition-opacity duration-300 scale-75 group-hover:scale-100"></div>
            <ChevronRight size={28} strokeWidth={1.5} className="relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
          </button>
       </div>
@@ -471,14 +471,14 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
       {/* SPECS MODAL */}
       {showSpecs && (
         <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-0 md:p-4">
-          <div className="absolute inset-0 bg-black/20 backdrop-blur-sm transition-opacity duration-500" onClick={() => setShowSpecs(false)}></div>
-          <div className="bg-white w-full md:max-w-lg md:rounded-2xl rounded-t-3xl shadow-2xl overflow-hidden relative z-10 animate-fade-in-up max-h-[85vh] flex flex-col border border-gray-100">
-            <div className="bg-white p-6 flex justify-between items-center shrink-0 border-b border-gray-100 sticky top-0 z-20">
+          <div className="absolute inset-0 bg-black/20 dark:bg-black/60 backdrop-blur-sm transition-opacity duration-500" onClick={() => setShowSpecs(false)}></div>
+          <div className="bg-white dark:bg-[#121212] w-full md:max-w-lg md:rounded-2xl rounded-t-3xl shadow-2xl overflow-hidden relative z-10 animate-fade-in-up max-h-[85vh] flex flex-col border border-gray-100 dark:border-white/10 transition-colors duration-500">
+            <div className="bg-white dark:bg-[#121212] p-6 flex justify-between items-center shrink-0 border-b border-gray-100 dark:border-white/5 sticky top-0 z-20">
               <div>
-                <h3 className="font-display font-bold text-xl tracking-tight">{activeCar.model}</h3>
+                <h3 className="font-display font-bold text-xl tracking-tight text-black dark:text-white">{activeCar.model}</h3>
                 <p className="text-[10px] font-body font-bold tracking-widest text-gray-400 uppercase">{activeCar.brand}</p>
               </div>
-              <button onClick={() => setShowSpecs(false)} className="hover:bg-gray-100 p-2 rounded-full transition text-gray-500 hover:text-black">
+              <button onClick={() => setShowSpecs(false)} className="hover:bg-gray-100 dark:hover:bg-white/10 p-2 rounded-full transition text-gray-500 hover:text-black dark:hover:text-white">
                 <X size={20} />
               </button>
             </div>
@@ -486,18 +486,18 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
               <h4 className="text-[10px] font-bold tracking-[0.2em] text-gray-400 uppercase mb-6 font-body">{labels.featuresTitle}</h4>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
                 {activeCar.features.map((feature, i) => (
-                  <li key={i} className="flex items-start space-x-3 text-sm font-medium text-gray-700 font-body group">
+                  <li key={i} className="flex items-start space-x-3 text-sm font-medium text-gray-700 dark:text-gray-300 font-body group">
                     <div className="w-1.5 h-1.5 mt-2 rounded-full bg-green-500 shrink-0 group-hover:scale-150 transition-transform"></div>
                     <span className="leading-relaxed">{feature}</span>
                   </li>
                 ))}
               </ul>
-              <div className="mt-8 pt-8 border-t border-gray-100 flex flex-col gap-4">
+              <div className="mt-8 pt-8 border-t border-gray-100 dark:border-white/5 flex flex-col gap-4">
                  <div className="flex justify-between items-center">
                     <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">{labels.priceLabel}</span>
-                    <span className="font-display font-bold text-lg">{activeCar.stats.priceVal}</span>
+                    <span className="font-display font-bold text-lg text-black dark:text-white">{activeCar.stats.priceVal}</span>
                  </div>
-                 <button onClick={() => { setShowSpecs(false); handleEnterCar(); }} className="w-full py-4 bg-black text-white rounded-xl font-bold text-sm tracking-widest uppercase hover:bg-brand-red transition-colors duration-300">
+                 <button onClick={() => { setShowSpecs(false); handleEnterCar(); }} className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl font-bold text-sm tracking-widest uppercase hover:bg-brand-red dark:hover:bg-gray-200 transition-colors duration-300">
                    {labels.viewInterior}
                  </button>
               </div>
